@@ -117,18 +117,8 @@ class hadoop($hadoop_version = '2.5.2') {
 		creates => "/tmp/hadoop-namenode/current",
 	}
 
-	service { "hadoop":
-		enable => true,
-		require => [ Exec["setup-namenode-hadoop"], Exec["iptables-stop"] ],
-	}
-
-	exec { "init-dfs-temp-dir-a-hadoop": 
-		command => "/usr/local/hadoop/bin/hdfs --config $HADOOP_PREFIX/etc/hadoop dfs -mkdir /tmp",
-		require => [ File["/etc/init.d/hadoop"], Service["hadoop"] ],
-	}
-
-	exec { "init-dfs-temp-dir-b-hadoop": 
-		command => "/usr/local/hadoop/bin/hdfs --config $HADOOP_PREFIX/etc/hadoop dfs -chmod -R 777 /tmp",
-		require => Exec["init-dfs-temp-dir-a-hadoop"],
+	exec { "start-hadoop": 
+		command => "service hadoop start",
+		require => [ Exec["setup-namenode-hadoop"], Exec["iptables-stop"], File["/etc/init.d/hadoop"] ],
 	}	
 }
