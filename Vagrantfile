@@ -19,7 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		master.vm.hostname = "hadoop-yarn"
 
 		# Proxy Setup (add your own file here if you need it. You will need yum.conf proxy & http_proxy configured)
-		master.vm.provision :shell, :path=> 'proxy.sh'
+		#master.vm.provision :shell, :path=> 'proxy.sh'
 
 		# Bootstrap JAVA_HOME
 		master.vm.provision "shell", inline: $script
